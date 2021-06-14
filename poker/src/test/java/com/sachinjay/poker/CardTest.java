@@ -17,4 +17,19 @@ public class CardTest
 		assertEquals(card.getSuit(), Suit.SPADES);
 	}
 
+	@Test
+	public void testRest()
+	{
+		for (Suit suit : Suit.values())
+		{
+			for (Rank rank : Rank.values())
+			{
+				card = new Card(rank, suit);
+
+				assertEquals(rank, card.getRank());
+				assertEquals(suit, card.getSuit());
+			}
+		}
+	}
+
 }
