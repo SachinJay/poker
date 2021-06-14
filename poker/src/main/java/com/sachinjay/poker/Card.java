@@ -1,6 +1,8 @@
 package com.sachinjay.poker;
 
-public class Card
+import Utils.Constants;
+
+public class Card implements Comparable<Card>
 {
 	private Rank rank;
 	private Suit suit;
@@ -47,6 +49,16 @@ public class Card
 	public void setRank(Rank rank)
 	{
 		this.rank = rank;
+	}
+
+	@Override
+	public int compareTo(Card card)
+	{
+		int diff = Constants.RANK_TO_INT.get(this.rank) - Constants.RANK_TO_INT.get(card.getRank());
+		if (diff > 0) diff = 1;
+		if (diff < 0) diff = -1;
+
+		return diff;
 	}
 
 }
