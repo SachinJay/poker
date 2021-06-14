@@ -2,6 +2,8 @@ package com.sachinjay.poker;
 
 import org.apache.commons.lang3.SerializationUtils;
 
+import Utils.Constants;
+
 public class Hand
 {
 	/**
@@ -14,14 +16,15 @@ public class Hand
 	/**
 	 * Constructor, sets the hand equal to the given array
 	 * 
-	 * @param hand teh given array of cards
+	 * @param hand the given array of cards
+	 * @throws HandSizeException
 	 */
-	public void Hand(Card[] hand)
+	public void Hand(Card[] hand) throws HandSizeException
 	{
 		this.hand = SerializationUtils.clone(hand);
 		if (this.hand.length != 5)
 		{
-			// TODO Come up with exception to throw
+			throw new HandSizeException(Constants.HAND_SIZE_MSG);
 		}
 	}
 }
