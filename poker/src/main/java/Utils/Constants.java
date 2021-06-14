@@ -33,4 +33,7 @@ public class Constants
 
 		RANK_TO_INT = Collections.unmodifiableMap(aMap);
 	}
+
+	public static final int HAND_SIZE = 5;
+	public static final String HAND_SIZE_MSG = "The Hand size must be " + HAND_SIZE;
 }
