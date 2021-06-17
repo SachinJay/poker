@@ -5,7 +5,7 @@ import com.sachinjay.poker.Hand;
 import com.sachinjay.poker.Rank;
 import com.sachinjay.poker.Suit;
 
-public class Utils
+public class HandMethods
 {
 	public static boolean isStraight(Hand hand)
 	{
