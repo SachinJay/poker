@@ -217,4 +217,17 @@ public class HandMethods
 		return true;
 
 	}
+
+	/**
+	 * Gives a score to a specific hand. Hands with higher scores beat hands with
+	 * lower scores. Hands with the same score tie
+	 * 
+	 * @param hand the hand to score
+	 * @return the score of the hand
+	 */
+	public static int score(Hand hand)
+	{
+		// TODO: implement
+		return null;
+	}
 }
