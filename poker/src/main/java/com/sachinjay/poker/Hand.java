@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.apache.commons.lang3.SerializationUtils;
 
 import com.sachinjay.utils.Constants;
+import com.sachinjay.utils.HandMethods;
 
 public class Hand
 {
@@ -44,69 +45,6 @@ public class Hand
 		setHandType();
 	}
 
-	private void setHandType()
-	{
-//		boolean isStraight = isStraight();
-//		boolean isFlush = isFlush();
-//
-//		if (isStraight && isFlush)
-//		{
-//			// If the high card is an ace
-//			if (this.ranks[this.ranks.length - 1] == 14)
-//			{
-//				this.handType = HandType.ROYAL_FLUSH;
-//			}
-//			else
-//			{
-//				this.handType = HandType.STRAIGHT_FLUSH;
-//			}
-//		}
-//		// not a straight OR not a flush
-//		else
-//		{
-//			if (isStraight) this.handType = HandType.STRAIGHT;
-//			if (isFlush) this.handType = HandType.FLUSH;
-//
-//		}
-//
-//		if (!isStraight && !isFlush)
-//		{
-//			// gotta check for the two pair, full house, etc
-//		}
-//
-//		// TODO set this.handType
-
-		this.handType = null;
-	}
-
-	private boolean isStraight()
-	{
-		// Outlier where ace is used as a one
-		if (this.ranks[0] == 14 && this.ranks[1] == 2 && this.ranks[2] == 3 && this.ranks[3] == 4 && this.ranks[4] == 5)
-		{
-			return true;
-		}
-
-		for (int i = 0; i < this.ranks.length - 1; i++)
-		{
-			if (this.ranks[i + 1] - this.ranks[i] != 1) return false;
-		}
-
-		return true;
-	}
-
-	private boolean isFlush()
-	{
-		Suit suit = hand[0].getSuit();
-
-		for (Card card : hand)
-		{
-			if (card.getSuit() != suit) return false;
-		}
-
-		return true;
-	}
-
 	/**
 	 * 
 	 * @return the sorted Card array representing the hand
@@ -114,5 +52,19 @@ public class Hand
 	public Card[] getHand()
 	{
 		return this.hand;
+	}
+
+	private void setHandType()
+	{
+		if (HandMethods.isRoyalFlush(this)) this.handType = HandType.ROYAL_FLUSH;
+		if (HandMethods.isStraightFlush(this)) this.handType = HandType.STRAIGHT_FLUSH;
+		if (HandMethods.isFourOfAKind(this)) this.handType = HandType.FOUR_OF_A_KIND;
+		if (HandMethods.isFullHouse(this)) this.handType = HandType.FULL_HOUSE;
+		if (HandMethods.isFlush(this)) this.handType = HandType.FLUSH;
+		if (HandMethods.isStraight(this)) this.handType = HandType.STRAIGHT;
+		if (HandMethods.isThreeOfAKind(this)) this.handType = HandType.THREE_OF_A_KIND;
+		if (HandMethods.isTwoPair(this)) this.handType = HandType.TWO_PAIR;
+		if (HandMethods.isPair(this)) this.handType = HandType.PAIR;
+		if (HandMethods.isHighCard(this)) this.handType = HandType.HIGH_CARD;
 	}
 }
