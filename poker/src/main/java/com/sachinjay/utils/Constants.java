@@ -1,4 +1,4 @@
-package Utils;
+package com.sachinjay.utils;
 
 import java.util.Collections;
 import java.util.HashMap;

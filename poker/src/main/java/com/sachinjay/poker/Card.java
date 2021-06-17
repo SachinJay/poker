@@ -1,6 +1,6 @@
 package com.sachinjay.poker;
 
-import Utils.Constants;
+import com.sachinjay.utils.Constants;
 
 public class Card implements Comparable<Card>
 {
