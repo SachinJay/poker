@@ -228,6 +228,6 @@ public class HandMethods
 	public static int score(Hand hand)
 	{
 		// TODO: implement
-		return null;
+		return 0;
 	}
 }
