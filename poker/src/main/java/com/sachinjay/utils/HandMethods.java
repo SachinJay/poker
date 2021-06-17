@@ -6,8 +6,7 @@ import com.sachinjay.poker.Rank;
 import com.sachinjay.poker.Suit;
 
 /**
- * Class containing methods used on hands. For these method purposes, a royal
- * flush IS a straight flush and a straight flush is both a straight and a flush
+ * Class containing methods used on hands.
  * 
  * 
  * @author sachi
@@ -16,17 +15,35 @@ import com.sachinjay.poker.Suit;
 public class HandMethods
 {
 
+	/**
+	 * Checks if a hand is a royal flush
+	 * 
+	 * @param hand the hand in question
+	 * @return true if the hand is a royal flush, else false
+	 */
 	public static boolean isRoyalFlush(Hand hand)
 	{
 		Card[] handArr = hand.getHand();
-		return isStraightFlush(hand) && handArr[Constants.HAND_SIZE - 1].getRank() == Rank.ACE;
+		return isIncreasing(hand) && allSameSuit(hand) && handArr[Constants.HAND_SIZE - 1].getRank() == Rank.ACE;
 	}
 
+	/**
+	 * Checks is a hand is a straight flush
+	 * 
+	 * @param hand the hand
+	 * @return whether the hand is a straight flush or not
+	 */
 	public static boolean isStraightFlush(Hand hand)
 	{
-		return isStraight(hand) && isFlush(hand);
+		return !isRoyalFlush(hand) && isIncreasing(hand) && allSameSuit(hand);
 	}
 
+	/**
+	 * Checks if a hand is a four of a kind
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a four of a kind
+	 */
 	public static boolean isFourOfAKind(Hand hand)
 	{
 		Card[] handArr = hand.getHand();
@@ -41,6 +58,12 @@ public class HandMethods
 		return unmatchedCardIsLast || unmatchedCardIsFirst;
 	}
 
+	/**
+	 * Checks if a hand is a full house
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a full house
+	 */
 	public static boolean isFullHouse(Hand hand)
 	{
 		Card[] handArr = hand.getHand();
@@ -54,40 +77,34 @@ public class HandMethods
 		return is3_2 || is2_3;
 	}
 
+	/**
+	 * Checks if a hand is a flush
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a flush
+	 */
 	public static boolean isFlush(Hand hand)
 	{
-		Card[] handArr = hand.getHand();
-
-		Suit suit = handArr[0].getSuit();
-
-		for (Card card : handArr)
-		{
-			if (card.getSuit() != suit) return false;
-		}
-
-		return true;
+		return !isRoyalFlush(hand) && !isStraightFlush(hand) && allSameSuit(hand);
 	}
 
+	/**
+	 * Checks if a hand is a straight
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a straight
+	 */
 	public static boolean isStraight(Hand hand)
 	{
-		Card[] handArr = hand.getHand();
-		// Outlier where ace is used as a one
-		if (handArr[0].getRank() == Rank.ACE && handArr[1].getRank() == Rank.TWO && handArr[2].getRank() == Rank.THREE
-				&& handArr[3].getRank() == Rank.FOUR && handArr[4].getRank() == Rank.FIVE)
-		{
-			return true;
-		}
-
-		for (int i = 0; i < handArr.length - 1; i++)
-		{
-			Rank r1 = handArr[i + 1].getRank();
-			Rank r2 = handArr[i].getRank();
-			if (Constants.RANK_TO_INT.get(r1) - Constants.RANK_TO_INT.get(r2) != 1) return false;
-		}
-
-		return true;
+		return !isRoyalFlush(hand) && !isStraightFlush(hand) && isIncreasing(hand);
 	}
 
+	/**
+	 * Checks if a hand is a three of a kind
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a three of a kind
+	 */
 	public static boolean isThreeOfAKind(Hand hand)
 	{
 		if (isFourOfAKind(hand) || isFullHouse(hand)) return false;
@@ -106,6 +123,12 @@ public class HandMethods
 		return is4_5 || is1_5 || is1_2;
 	}
 
+	/**
+	 * Checks if a hand is a two pair
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a two pair
+	 */
 	public static boolean isTwoPair(Hand hand)
 	{
 		if (isFourOfAKind(hand) || isFullHouse(hand)) return false;
@@ -124,6 +147,12 @@ public class HandMethods
 		return is1 || is3 || is5;
 	}
 
+	/**
+	 * Checks if a hand is a pair
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a pair
+	 */
 	public static boolean isPair(Hand hand)
 	{
 
@@ -142,9 +171,50 @@ public class HandMethods
 		return is1 || is2 || is3 || is4;
 	}
 
+	/**
+	 * Checks if a hand is a high card
+	 * 
+	 * @param hand the hand
+	 * @return whether or not the hand is a high card
+	 */
 	public static boolean isHighCard(Hand hand)
 	{
 		return (!isFourOfAKind(hand) && !isFullHouse(hand) && !isFlush(hand) && !isStraight(hand)
 				&& !isThreeOfAKind(hand) && !isTwoPair(hand) && !isPair(hand));
+	}
+
+	public static boolean allSameSuit(Hand hand)
+	{
+		Card[] handArr = hand.getHand();
+
+		Suit suit = handArr[0].getSuit();
+
+		for (Card card : handArr)
+		{
+			if (card.getSuit() != suit) return false;
+		}
+
+		return true;
+	}
+
+	public static boolean isIncreasing(Hand hand)
+	{
+		Card[] handArr = hand.getHand();
+		// Outlier where ace is used as a one
+		if (handArr[0].getRank() == Rank.ACE && handArr[1].getRank() == Rank.TWO && handArr[2].getRank() == Rank.THREE
+				&& handArr[3].getRank() == Rank.FOUR && handArr[4].getRank() == Rank.FIVE)
+		{
+			return true;
+		}
+
+		for (int i = 0; i < handArr.length - 1; i++)
+		{
+			Rank r1 = handArr[i + 1].getRank();
+			Rank r2 = handArr[i].getRank();
+			if (Constants.RANK_TO_INT.get(r1) - Constants.RANK_TO_INT.get(r2) != 1) return false;
+		}
+
+		return true;
+
 	}
 }
